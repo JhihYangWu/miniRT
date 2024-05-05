@@ -1,5 +1,7 @@
 set(SOURCES
 main.cpp
+mymath/vector3.hpp
+mymath/vector3.cpp
 )
 
 # create executable
