@@ -6,6 +6,7 @@
 class Vector3{
 public:
     // constructors
+    Vector3(); // zero vector
     Vector3(float x, float y, float z);
     Vector3(float val); // x = y = z = val
     Vector3(const Vector3& other); // copy constructor
