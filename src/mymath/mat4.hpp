@@ -2,6 +2,7 @@
 #define MAT4_H
 
 #include <string>
+#include "vector3.hpp"
 
 class Mat4{
 public:
@@ -16,6 +17,7 @@ public:
     // operators and methods
     Mat4& operator=(const Mat4& other);
     float& operator()(int row, int col);
+    Vector3 operator()(Vector3 v); // transforms (trans, rot, scale, etc) a vector
     Mat4 T(); // returns a new Mat4 with values transposed
     std::string str();
     
