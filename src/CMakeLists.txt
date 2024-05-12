@@ -4,6 +4,10 @@ mymath/vector3.hpp
 mymath/vector3.cpp
 mymath/ray.hpp
 mymath/ray.cpp
+texture/texture.hpp
+texture/texture.cpp
+color/color.hpp
+color/color.cpp
 )
 
 # create executable
