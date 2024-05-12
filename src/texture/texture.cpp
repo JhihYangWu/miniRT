@@ -72,6 +72,10 @@ Texture::Texture(unsigned int width, unsigned int height, char color) {
     }
 }
 
+Texture::~Texture() {
+    delete data;
+}
+
 void Texture::save(std::string filename) {
     // saves the texture as ppm binary file
     // open file

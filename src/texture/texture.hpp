@@ -12,6 +12,7 @@ public:
     // constructor
     Texture(std::string filename);
     Texture(unsigned int width, unsigned int height, char color);
+    ~Texture(); // deconstructor
 
     // methods
     void save(std::string filename);
