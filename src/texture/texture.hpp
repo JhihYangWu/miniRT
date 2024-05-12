@@ -2,7 +2,7 @@
 #define TEXTURE_H
 
 #include <string>
-#include "color/color.hpp"
+#include "../color/color.hpp"
 
 // colors stored as char between 0 and 255
 // Color should be between 0.0f and 1.0f

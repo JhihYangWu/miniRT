@@ -68,7 +68,7 @@ Texture::Texture(unsigned int width, unsigned int height, char color) {
     data = new char[width * height * 4]; // allocate memory
     for (int i = 0; i < width * height * 4; i++) {
         data[i] = color;
-        if (i % 4 == 3) data[i] = 255; // fully opaque
+        if (i % 4 == 3) data[i] = (char)255; // fully opaque
     }
 }
 
