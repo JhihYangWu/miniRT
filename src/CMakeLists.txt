@@ -8,6 +8,8 @@ texture/texture.hpp
 texture/texture.cpp
 color/color.hpp
 color/color.cpp
+mymath/mat4.hpp
+mymath/mat4.cpp
 )
 
 # create executable
