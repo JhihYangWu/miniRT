@@ -10,6 +10,12 @@ color/color.hpp
 color/color.cpp
 mymath/mat4.hpp
 mymath/mat4.cpp
+camera/perspective.hpp
+camera/perspective.cpp
+geometry/triangle.hpp
+geometry/triangle.cpp
+geometry/trimesh.hpp
+geometry/trimesh.cpp
 )
 
 # create executable
