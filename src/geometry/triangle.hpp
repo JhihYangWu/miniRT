@@ -18,8 +18,7 @@ private:
     // attributes
     Vector3 A, B, C;
     Vector3 n; // normal of triangle
-    Vector3 vA, vB, vC; // for intersect method
-    Vector3 AB, BC, CA; // for intersect method
+    Vector3 edge1, edge2; // for intersect algo
 };
 
 #endif

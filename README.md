@@ -13,7 +13,7 @@ the render will be saved as render.ppm
 
 ---
 ## Features
-
+Möller–Trumbore triangle ray intersection algorithm  
 
 ---
 inspired by the project structure and design of [SORT](https://github.com/JiayinCao/SORT)  
