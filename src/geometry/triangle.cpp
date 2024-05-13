@@ -58,3 +58,7 @@ float Triangle::intersect(Ray r) {
 
     return t;
 }
+
+Vector3 Triangle::getNormal() {
+    return n;
+}

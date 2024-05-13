@@ -8,6 +8,13 @@ Color::Color(char r, char g, char b, char a) {
     this->a = a / 255.0f;
 }
 
+Color::Color(Vector3 v) {
+    r = v.x;
+    g = v.y;
+    b = v.z;
+    a = 1.0f;
+}
+
 Color::Color(const Color& other) {
     r = other.r;
     g = other.g;

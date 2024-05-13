@@ -13,6 +13,7 @@ public:
     // methods
     float intersect(Ray r); // intersects ray r with triangle and returns time of intersection
                             // returns -1.0f if no intersection
+    Vector3 getNormal(); // returns normal of triangle
 private:
     // attributes
     Vector3 A, B, C;

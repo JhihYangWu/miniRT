@@ -16,6 +16,8 @@ geometry/triangle.hpp
 geometry/triangle.cpp
 geometry/trimesh.hpp
 geometry/trimesh.cpp
+core/system.hpp
+core/system.cpp
 )
 
 # create executable
