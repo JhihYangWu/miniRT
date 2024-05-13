@@ -9,6 +9,7 @@ git clone https://github.com/JhihYangWu/miniRT.git
 cd miniRT
 ./run.sh
 ```
+the render will be saved as render.ppm  
 
 ---
 ## Features
