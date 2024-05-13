@@ -1,5 +1,7 @@
 #include "triangle.hpp"
 
+#define EPSILON 0.00000001
+
 Triangle::Triangle(Vector3 p0, Vector3 p1, Vector3 p2) {
     A = p0;
     B = p1;
@@ -40,7 +42,7 @@ float Triangle::intersect(Ray r) {
     // n . p0 - n . o = n . (t * d)
     // n . p0 - n . o = t * n . d
     // t = (n . p0 - n . o) / (n . d)
-    float t = (dot(n, A) - dot(n, r.o)) / dot(n, r.d);
+    float t = (dot(n, A) - dot(n, r.o)) / (dot(n, r.d) + EPSILON);
     if (t < 0.0f) return -1.0f; // triangle is behind ray
     Vector3 hitPt = r(t);
 
@@ -49,11 +51,11 @@ float Triangle::intersect(Ray r) {
     Vector3 AI = hitPt - A;
     Vector3 BI = hitPt - B;
     Vector3 CI = hitPt - C;
-    float alpha = 1 - dot(vA, AI) / dot(vA, AB);
+    float alpha = 1 - dot(vA, AI) / (dot(vA, AB) + EPSILON);
     if (alpha < 0.0f || alpha > 1.0f) return -1.0f;
-    float beta = 1 - dot(vB, BI) / dot(vB, BC);
+    float beta = 1 - dot(vB, BI) / (dot(vB, BC) + EPSILON);
     if (beta < 0.0f || beta > 1.0f) return -1.0f;
-    float gamma = 1 - dot(vC, CI) / dot(vC, CA);
+    float gamma = 1 - dot(vC, CI) / (dot(vC, CA) + EPSILON);
     if (gamma < 0.0f || gamma > 1.0f) return -1.0f;
 
     return t;
