@@ -76,6 +76,10 @@ Vector3 cross(const Vector3& v0, const Vector3& v1) {
     );
 }
 
+Vector3 proj(const Vector3& v0, const Vector3& v1) {
+    return (dot(v0, v1) / dot(v1, v1)) * v1;
+}
+
 Vector3 normalize(Vector3& v) {
     float length = v.len();
     if (length == 0) return v;

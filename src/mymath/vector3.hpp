@@ -37,6 +37,7 @@ public:
 // operators and functions
 float dot(const Vector3& v0, const Vector3& v1);
 Vector3 cross(const Vector3& v0, const Vector3& v1);
+Vector3 proj(const Vector3& v0, const Vector3& v1); // projection of v0 on v1
 Vector3 normalize(Vector3& v);
 
 Vector3 operator+(const Vector3& v0, const Vector3& v1);
