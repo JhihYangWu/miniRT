@@ -1,10 +1,12 @@
 #include "system.hpp"
+#include <iostream>
 
-System::System(PerspectiveCam& cam, Texture& renderTarget, Vector3 lightLoc) : cam(cam), renderTarget(renderTarget) {
+System::System(Timer& timer, PerspectiveCam& cam, Texture& renderTarget, Vector3 lightLoc) : timer(timer), cam(cam), renderTarget(renderTarget) {
     this->lightLoc = lightLoc;
 }
 
 void System::render() {
+    timer.reset();
     for (int row = 0; row < renderTarget.height; row++) {
         for (int col = 0; col < renderTarget.width; col++) {
             // fill in color of this pixel by shooting ray into scene
@@ -32,6 +34,7 @@ void System::render() {
             }
         }
     }
+    std::cout << "Render took " + std::to_string(timer.getElapsedTime()) + " ms" << std::endl;
 }
 
 void System::addTriMesh(TriMesh* mesh) {

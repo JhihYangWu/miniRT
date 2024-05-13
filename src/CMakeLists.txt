@@ -18,6 +18,8 @@ geometry/trimesh.hpp
 geometry/trimesh.cpp
 core/system.hpp
 core/system.cpp
+core/timer.hpp
+core/timer.cpp
 )
 
 # create executable
