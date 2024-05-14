@@ -4,7 +4,7 @@
 #include <sstream>
 #include <cassert>
 
-TriMesh::TriMesh(std::string filename) {
+TriMesh::TriMesh(std::string filename, int octreeMaxDepth, int octreeApproxTrigPerBBox) {
     // make sure filename ends with obj
     assert(filename.substr(filename.length() - 3) == "obj");
 
@@ -16,6 +16,7 @@ TriMesh::TriMesh(std::string filename) {
 
     std::string line;
     numTriangles = 0;
+    BBox bbox;
     while (std::getline(file, line)) {
         std::istringstream iss(line);
         std::string type;
@@ -39,8 +40,20 @@ TriMesh::TriMesh(std::string filename) {
             iss >> i >> ch >> j >> ch >> k;
             Vector3 C = vertexBuffer[i - 1];
             triangles.push_back(Triangle(A, B, C));
+            bbox.union_(A);
+            bbox.union_(B);
+            bbox.union_(C);
         }
     }
+
+    // put triangles in octree
+    std::vector<Triangle*> trigRefs;
+    for (Triangle& t : triangles) trigRefs.push_back(&t);
+    octree = new Octree(bbox, trigRefs, octreeMaxDepth, octreeApproxTrigPerBBox);
+}
+
+TriMesh::~TriMesh() {
+    delete octree;
 }
 
 std::string TriMesh::str() {

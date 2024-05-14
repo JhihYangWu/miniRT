@@ -3,6 +3,10 @@
 
 #define EPSILON 0.000001
 
+BBox::BBox() {
+
+}
+
 BBox::BBox(Vector3 p0, Vector3 p1) {
     minPt.x = std::min(p0.x, p1.x);
     minPt.y = std::min(p0.y, p1.y);

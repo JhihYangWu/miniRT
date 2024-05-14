@@ -20,6 +20,10 @@ core/system.hpp
 core/system.cpp
 core/timer.hpp
 core/timer.cpp
+mymath/bbox.hpp
+mymath/bbox.cpp
+accelerator/octree.hpp
+accelerator/octree.cpp
 )
 
 # create executable

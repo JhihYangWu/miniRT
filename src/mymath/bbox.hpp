@@ -6,6 +6,7 @@
 class BBox{ // bounding box class
 public:
     // constructors
+    BBox(); // p0 = p1 = (0, 0, 0)
     BBox(Vector3 p0, Vector3 p1);
     BBox(const BBox& other); // copy constructor
 

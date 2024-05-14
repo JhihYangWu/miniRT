@@ -4,11 +4,15 @@
 #include <vector>
 #include <string>
 #include "triangle.hpp"
+#include "../accelerator/octree.hpp"
 
 class TriMesh{
 public:
     // constructors
-    TriMesh(std::string filename); // creates triangle mesh from obj file
+    // creates triangle mesh from obj file
+    // also puts triangles in octree
+    TriMesh(std::string filename, int octreeMaxDepth, int octreeApproxTrigPerBBox);
+    ~TriMesh(); // deconstructor
     
     // methods
     std::string str();
@@ -18,6 +22,7 @@ public:
     std::vector<Vector3> normalBuffer;
     int numTriangles;
     std::vector<Triangle> triangles;
+    Octree* octree; // accelerator
 };
 
 #endif

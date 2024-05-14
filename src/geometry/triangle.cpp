@@ -37,7 +37,3 @@ float Triangle::intersect(Ray r) {
     float t = dot(qVec, edge2) / det; // time of intersection
     return t;
 }
-
-Vector3 Triangle::getNormal() {
-    return n;
-}

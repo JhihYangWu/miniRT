@@ -15,21 +15,20 @@ void System::render() {
             Ray r = cam.generateRay(imgPlaneX, imgPlaneY);
             float minT = -1.0f;
             for (TriMesh* mesh : meshes) {
-                for (Triangle& triangle : (*mesh).triangles) {
-                    float t = triangle.intersect(r);
-                    if (t == -1.0f) continue;
-                    if (minT == -1.0f || t < minT) {
-                        // new nearest hit
-                        minT = t;
-                        Vector3 hitPt = r(t);
-                        // diffuse shading
-                        Vector3 l = (lightLoc - hitPt).normalize();
-                        float diffuse = std::max(0.0f, dot(triangle.getNormal(), l));
-                        Vector3 white(1.0f, 1.0f, 1.0f);
-                        Color c((diffuse * white + white) / 2.0);
-                        c.clamp();
-                        renderTarget.setColor(c, row, col);
-                    }
+                Triangle* hitTrig;
+                float t = mesh->octree->intersect(r, &hitTrig);
+                if (t == -1.0f) continue;
+                if (minT == -1.0f || t < minT) {
+                    // new nearest hit
+                    minT = t;
+                    Vector3 hitPt = r(t);
+                    // diffuse shading
+                    Vector3 l = (lightLoc - hitPt).normalize();
+                    float diffuse = std::max(0.0f, dot(hitTrig->n, l));
+                    Vector3 white(1.0f, 1.0f, 1.0f);
+                    Color c((diffuse * white + white) / 2.0);
+                    c.clamp();
+                    renderTarget.setColor(c, row, col);
                 }
             }
         }

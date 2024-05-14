@@ -6,7 +6,7 @@
 #include "core/timer.hpp"
 
 int main(int argc, char* argv[]) {
-    TriMesh monkey("scenes/monkey/monkey.obj");
+    TriMesh monkey("scenes/monkey/monkey.obj", 3, 4);
     Texture renderTarget(400, 300, 0);
     PerspectiveCam cam(Vector3(0, 0, 8), Vector3(0, 0, 0), 90);
     Vector3 lightLoc = Vector3(100, 100, 100);
