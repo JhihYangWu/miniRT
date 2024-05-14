@@ -12,5 +12,6 @@ PerspectiveCam::PerspectiveCam(Vector3 loc, Vector3 lookAt, float fovY) {
 
 Ray PerspectiveCam::generateRay(float x, float y) {
     Vector3 dir = u * x + v * y + -w * imgPlaneDist;
+    dir.normalize();
     return Ray(loc, dir);
 }
