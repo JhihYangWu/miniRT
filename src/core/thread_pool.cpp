@@ -20,6 +20,7 @@ ThreadPool::ThreadPool(int numThreads, int numJobs) {
                 { // record down that you finished a job
                     std::lock_guard<std::mutex> lock(completionMutex); // lock completionMutex
                     jobsCompleted++;
+                    printProgressBar(jobsCompleted, totalJobs);
                 } // automatically unlock completionMutex
                 completionCondition.notify_one(); // notify anything waiting on completionCondition
             }
@@ -49,6 +50,7 @@ void ThreadPool::stopPool() {
     for (std::thread& thread : threads) {
         thread.join();
     }
+    std::cout << std::endl;
 }
 
 void ThreadPool::processJob(Job job) {
@@ -77,4 +79,16 @@ void ThreadPool::processJob(Job job) {
             s->renderTarget.setColor(c, row, col);
         }
     }
+}
+
+void printProgressBar(int progress, int total, int barWidth) {
+    float percent = 1.0 * progress / total;
+    int width = percent * barWidth;
+    std::cout << "[";
+    for (int i = 0; i < barWidth; i++) {
+        if (i < width) std::cout << "=";
+        else std::cout << " ";
+    }
+    std::cout << "] " << int(percent * 100.0f) << "%\r";
+    std::cout.flush();
 }

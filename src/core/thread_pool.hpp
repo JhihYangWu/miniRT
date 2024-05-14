@@ -32,4 +32,6 @@ private:
     bool stop;
 };
 
+void printProgressBar(int progress, int total, int barWidth = 40);
+
 #endif
