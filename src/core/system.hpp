@@ -10,13 +10,14 @@
 class System{
 public:
     // constructor
-    System(Timer& timer, PerspectiveCam& cam, Texture& renderTarget, Vector3 lightLoc);
+    System(int numThreads, Timer& timer, PerspectiveCam& cam, Texture& renderTarget, Vector3 lightLoc);
 
     // methods
     void render(); // render the scene using ray tracing and put it in renderTarget
     void addTriMesh(TriMesh* mesh);
 
     // attributes
+    int numThreads;
     Timer& timer;
     PerspectiveCam& cam;
     Texture& renderTarget;

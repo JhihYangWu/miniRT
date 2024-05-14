@@ -24,6 +24,8 @@ mymath/bbox.hpp
 mymath/bbox.cpp
 accelerator/octree.hpp
 accelerator/octree.cpp
+core/thread_pool.hpp
+core/thread_pool.cpp
 )
 
 # create executable

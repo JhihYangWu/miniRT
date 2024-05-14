@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     PerspectiveCam cam(Vector3(0, 0, 8), Vector3(0, 0, 0), 90);
     Vector3 lightLoc = Vector3(100, 100, 100);
     Timer timer;
-    System system(timer, cam, renderTarget, lightLoc);
+    System system(4, timer, cam, renderTarget, lightLoc);
     system.addTriMesh(&monkey);
     system.render();
     renderTarget.save("render.ppm");

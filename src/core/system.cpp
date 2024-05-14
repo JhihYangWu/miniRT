@@ -1,38 +1,26 @@
 #include "system.hpp"
 #include <iostream>
+#include "thread_pool.hpp"
 
-System::System(Timer& timer, PerspectiveCam& cam, Texture& renderTarget, Vector3 lightLoc) : timer(timer), cam(cam), renderTarget(renderTarget) {
+System::System(int numThreads, Timer& timer, PerspectiveCam& cam, Texture& renderTarget, Vector3 lightLoc) : timer(timer), cam(cam), renderTarget(renderTarget) {
     this->lightLoc = lightLoc;
+    this->numThreads = numThreads;
 }
 
 void System::render() {
+    ThreadPool pool(numThreads, renderTarget.width * renderTarget.height);
     timer.reset();
     for (int row = 0; row < renderTarget.height; row++) {
         for (int col = 0; col < renderTarget.width; col++) {
-            // fill in color of this pixel by shooting ray into scene
-            float imgPlaneX = (col - renderTarget.width / 2.0f) / (renderTarget.height / 2.0f);
-            float imgPlaneY = -(row - renderTarget.height / 2.0f) / (renderTarget.height / 2.0f);
-            Ray r = cam.generateRay(imgPlaneX, imgPlaneY);
-            float minT = -1.0f;
-            for (TriMesh* mesh : meshes) {
-                Triangle* hitTrig;
-                float t = mesh->octree->intersect(r, &hitTrig);
-                if (t == -1.0f) continue;
-                if (minT == -1.0f || t < minT) {
-                    // new nearest hit
-                    minT = t;
-                    Vector3 hitPt = r(t);
-                    // diffuse shading
-                    Vector3 l = (lightLoc - hitPt).normalize();
-                    float diffuse = std::max(0.0f, dot(hitTrig->n, l));
-                    Vector3 white(1.0f, 1.0f, 1.0f);
-                    Color c((diffuse * white + white) / 2.0);
-                    c.clamp();
-                    renderTarget.setColor(c, row, col);
-                }
-            }
+            Job j;
+            j.row = row;
+            j.col = col;
+            j.system = this;
+            pool.addJob(j);
         }
     }
+    pool.waitAll();
+    pool.stopPool();
     std::cout << "Render took " + std::to_string(timer.getElapsedTime()) + " ms" << std::endl;
 }
 
