@@ -20,7 +20,7 @@ ThreadPool::ThreadPool(int numThreads, int numJobs) {
                 { // record down that you finished a job
                     std::lock_guard<std::mutex> lock(completionMutex); // lock completionMutex
                     jobsCompleted++;
-                    printProgressBar(jobsCompleted, totalJobs);
+                    if (jobsCompleted % 1000 == 0) printProgressBar(jobsCompleted, totalJobs);
                 } // automatically unlock completionMutex
                 completionCondition.notify_one(); // notify anything waiting on completionCondition
             }
