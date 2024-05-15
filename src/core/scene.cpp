@@ -23,7 +23,9 @@ Scene::Scene(std::string filename) {
     float targetHeight = 100;
 
     std::string line;
+    int lineNum = 0;
     while (std::getline(file, line)) {
+        lineNum++;
         std::istringstream iss(line);
         std::string type;
         iss >> type;
@@ -31,7 +33,7 @@ Scene::Scene(std::string filename) {
         float x, y, z;
         int R, G, B, A;
         char ch;
-        if (type[0] == '#') {
+        if (type[0] == '#' || line.size() == 0) {
             continue; // skip comment lines
         } else if (type == "numThreads") {
             iss >> numThreads;
@@ -78,6 +80,9 @@ Scene::Scene(std::string filename) {
             // get RGBA
             iss >> R >> ch >> G >> ch >> B >> ch >> A;
             planes.push_back(Plane(upperLeft, lowerLeft, lowerRight, Color(R, G, B, A)));
+        } else {
+            std::cout << "Scene file has syntax error on line " << lineNum << std::endl;
+            assert(0);
         }
     }
 
