@@ -104,7 +104,7 @@ void ThreadPool::processJob(Job job) {
             Vector3 hitPt = r(t);
             // diffuse shading
             Vector3 l = (Vector3(100, 200, 100) - hitPt).normalize();
-            float diffuse = std::max(0.0f, dot((hitPt - sphere.loc).normalize(), l));
+            float diffuse = std::max(0.0f, dot(sphere.getNormal(hitPt), l));
             Vector3 white(1.0f, 1.0f, 1.0f);
             Color c((diffuse * white + white) / 2.0);
             c.clamp();

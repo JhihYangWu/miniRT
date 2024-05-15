@@ -47,3 +47,7 @@ float Sphere::intersect(Ray r) {
         return -1.0f;
     }
 }
+
+Vector3 Sphere::getNormal(Vector3 hitPt) {
+    return (hitPt - loc).normalize();
+}
