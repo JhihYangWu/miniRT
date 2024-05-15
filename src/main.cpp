@@ -3,7 +3,7 @@
 #include "core/system.hpp"
 
 int main(int argc, char* argv[]) {
-    Scene scene("scenes/monkey/monkey.scene");
+    Scene scene("example_scene/example_scene.scene");
     System system(scene);
     system.render();
     system.renderTarget.save("render.ppm");
