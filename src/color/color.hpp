@@ -6,6 +6,7 @@
 class Color{
 public:
     // constructors
+    Color(); // black
     Color(char r, char g, char b, char a);
     Color(Vector3 v); // x, y, z should be between 0.0f and 1.0f
     Color(const Color& other); // copy constructor

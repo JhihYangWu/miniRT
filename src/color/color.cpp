@@ -1,6 +1,13 @@
 #include "color.hpp"
 #include <algorithm>
 
+Color::Color() {
+    r = 0.0f;
+    g = 0.0f;
+    b = 0.0f;
+    a = 1.0f;
+}
+
 Color::Color(char r, char g, char b, char a) {
     this->r = r / 255.0f;
     this->g = g / 255.0f;
