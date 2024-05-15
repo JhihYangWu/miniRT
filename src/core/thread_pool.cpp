@@ -62,7 +62,7 @@ void ThreadPool::processJob(Job job) {
     float imgPlaneY = -(row - s->renderTarget.height / 2.0f) / (s->renderTarget.height / 2.0f);
     Ray r = s->cam.generateRay(imgPlaneX, imgPlaneY);
     float minT = -1.0f;
-    for (TriMesh* mesh : s->meshes) {
+    for (TriMesh* mesh : s->scene.objs) {
         Triangle* hitTrig;
         float t = mesh->octree->intersect(r, &hitTrig);
         if (t == -1.0f) continue;
@@ -71,7 +71,7 @@ void ThreadPool::processJob(Job job) {
             minT = t;
             Vector3 hitPt = r(t);
             // diffuse shading
-            Vector3 l = (s->lightLoc - hitPt).normalize();
+            Vector3 l = (Vector3(100, 100, 100) - hitPt).normalize();
             float diffuse = std::max(0.0f, dot(hitTrig->n, l));
             Vector3 white(1.0f, 1.0f, 1.0f);
             Color c((diffuse * white + white) / 2.0);

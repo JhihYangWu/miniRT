@@ -26,6 +26,12 @@ accelerator/octree.hpp
 accelerator/octree.cpp
 core/thread_pool.hpp
 core/thread_pool.cpp
+geometry/sphere.hpp
+geometry/sphere.cpp
+geometry/plane.hpp
+geometry/plane.cpp
+core/scene.hpp
+core/scene.cpp
 )
 
 # create executable
