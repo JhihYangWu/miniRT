@@ -72,13 +72,13 @@ std::string Mat4::str() {
             if (j == 0) ss << "[";
             ss << data[i][j];
             if (j != 3) ss << " ";
-            if (j == 3) ss << "]";
+            if (j == 3) ss << "]\n";
         }
     }
     return ss.str();
 }
 
-Mat4 matmul(Mat4& m0, Mat4& m1) {
+Mat4 matmul(Mat4 m0, Mat4 m1) {
     Mat4 retval;
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
@@ -90,6 +90,30 @@ Mat4 matmul(Mat4& m0, Mat4& m1) {
         }
     }
     return retval;
+}
+
+Mat4 rotXAxis(float phi) {
+    phi = phi * M_PI / 180.0f;
+    return Mat4(1, 0, 0, 0,
+                0, cos(phi), -sin(phi), 0,
+                0, sin(phi), cos(phi), 0,
+                0, 0, 0, 1);
+}
+
+Mat4 rotYAxis(float theta) {
+    theta = theta * M_PI / 180.0f;
+    return Mat4(cos(theta), 0, sin(theta), 0,
+                0, 1, 0, 0,
+                -sin(theta), 0, cos(theta), 0,
+                0, 0, 0, 1);
+}
+
+Mat4 rotZAxis(float psi) {
+    psi = psi * M_PI / 180.0f;
+    return Mat4(cos(psi), -sin(psi), 0, 0,
+                sin(psi), cos(psi), 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1);
 }
 
 Mat4 operator+(Mat4& m0, Mat4& m1) {

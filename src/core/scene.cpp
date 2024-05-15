@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include "../mymath/mat4.hpp"
 
 Scene::Scene(std::string filename) {
     // make sure filename ends with scene
@@ -24,6 +25,7 @@ Scene::Scene(std::string filename) {
 
     std::string line;
     int lineNum = 0;
+    Mat4 transform;
     while (std::getline(file, line)) {
         lineNum++;
         std::istringstream iss(line);
@@ -57,7 +59,7 @@ Scene::Scene(std::string filename) {
             iss >> R;
             // get octree approxTrigPerBBox
             iss >> G;
-            objs.push_back(new TriMesh(path, R, G));
+            objs.push_back(new TriMesh(path, R, G, transform));
         } else if (type == "sphere") {
             // get radius
             float radius;
@@ -66,7 +68,10 @@ Scene::Scene(std::string filename) {
             iss >> x >> ch >> y >> ch >> z;
             // get RGBA
             iss >> R >> ch >> G >> ch >> B >> ch >> A;
-            spheres.push_back(Sphere(radius, Vector3(x, y, z), Color(R, G, B, A)));
+            Vector3 loc(x, y, z);
+            // apply transformation (if any)
+            loc = transform(loc);
+            spheres.push_back(Sphere(radius, loc, Color(R, G, B, A)));
         } else if (type == "plane") {
             // get upper left
             iss >> x >> ch >> y >> ch >> z;
@@ -79,7 +84,32 @@ Scene::Scene(std::string filename) {
             Vector3 lowerRight = Vector3(x, y, z);
             // get RGBA
             iss >> R >> ch >> G >> ch >> B >> ch >> A;
+            // apply transformation (if any)
+            upperLeft = transform(upperLeft);
+            lowerLeft = transform(lowerLeft);
+            lowerRight = transform(lowerRight);
             planes.push_back(Plane(upperLeft, lowerLeft, lowerRight, Color(R, G, B, A)));
+        } else if (type == "transform") {
+            // get translation
+            iss >> x >> ch >> y >> ch >> z;
+            Vector3 trans(x, y, z);
+            // get rotation
+            iss >> x >> ch >> y >> ch >> z;
+            Vector3 rot(x, y, z);
+            // get scale
+            iss >> x >> ch >> y >> ch >> z;
+            Vector3 scale(x, y, z);
+            // set transformation matrix
+            transform = Mat4(); // reset to identity
+            transform(0, 0) = scale.x; // apply scale
+            transform(1, 1) = scale.y; // apply scale
+            transform(2, 2) = scale.z; // apply scale
+            transform = matmul(rotXAxis(rot.x), transform); // apply rotation
+            transform = matmul(rotYAxis(rot.y), transform);
+            transform = matmul(rotZAxis(rot.z), transform);
+            transform(0, 3) = trans.x; // apply translation
+            transform(1, 3) = trans.y;
+            transform(2, 3) = trans.z;
         } else {
             std::cout << "Scene file has syntax error on line " << lineNum << std::endl;
             assert(0);

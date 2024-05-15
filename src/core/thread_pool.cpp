@@ -79,6 +79,38 @@ void ThreadPool::processJob(Job job) {
             s->renderTarget.setColor(c, row, col);
         }
     }
+    for (Plane& p : s->scene.planes) {
+        float t = p.intersect(r);
+        if (t == -1.0f) continue;
+        if (minT == -1.0f || t < minT) {
+            // new nearest hit
+            minT = t;
+            Vector3 hitPt = r(t);
+            // diffuse shading
+            Vector3 l = (Vector3(100, 200, 100) - hitPt).normalize();
+            float diffuse = std::max(0.0f, dot(p.n, l));
+            Vector3 white(1.0f, 1.0f, 1.0f);
+            Color c((diffuse * white + white) / 2.0);
+            c.clamp();
+            s->renderTarget.setColor(c, row, col);
+        }
+    }
+    for (Sphere& sphere : s->scene.spheres) {
+        float t = sphere.intersect(r);
+        if (t == -1.0f) continue;
+        if (minT == -1.0f || t < minT) {
+            // new nearest hit
+            minT = t;
+            Vector3 hitPt = r(t);
+            // diffuse shading
+            Vector3 l = (Vector3(100, 200, 100) - hitPt).normalize();
+            float diffuse = std::max(0.0f, dot((hitPt - sphere.loc).normalize(), l));
+            Vector3 white(1.0f, 1.0f, 1.0f);
+            Color c((diffuse * white + white) / 2.0);
+            c.clamp();
+            s->renderTarget.setColor(c, row, col);
+        }
+    }
 }
 
 void printProgressBar(int progress, int total, int barWidth) {

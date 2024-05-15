@@ -40,7 +40,10 @@ public:
 };
 
 // operators and functions
-Mat4 matmul(Mat4& m0, Mat4& m1);
+Mat4 matmul(Mat4 m0, Mat4 m1);
+Mat4 rotXAxis(float phi); // all in degrees
+Mat4 rotYAxis(float theta);
+Mat4 rotZAxis(float psi);
 
 // following functions are all element wise
 Mat4 operator+(Mat4& m0, Mat4& m1);
