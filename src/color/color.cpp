@@ -8,7 +8,7 @@ Color::Color() {
     a = 1.0f;
 }
 
-Color::Color(char r, char g, char b, char a) {
+Color::Color(int r, int g, int b, int a) {
     this->r = r / 255.0f;
     this->g = g / 255.0f;
     this->b = b / 255.0f;
@@ -27,9 +27,10 @@ Color::Color(const Color& other) {
     g = other.g;
     b = other.b;
     a = other.a;
+    luminance = other.luminance;
 }
 
-void Color::setRGBA(char r, char g, char b, char a) {
+void Color::setRGBA(int r, int g, int b, int a) {
     this->r = r / 255.0f;
     this->g = g / 255.0f;
     this->b = b / 255.0f;
