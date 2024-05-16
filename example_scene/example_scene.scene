@@ -6,6 +6,7 @@ renderWidth 640
 renderHeight 480
 pathTracingDepth 500
 raysPerPixel 50
+snapshotFreq 10
 
 # monkey
 transform -8,-4,0 0,30,0 2,2,2

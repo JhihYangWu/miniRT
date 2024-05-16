@@ -1,5 +1,7 @@
 #include "thread_pool.hpp"
 #include "rendering_equation.hpp"
+#include <sstream>
+#include <iomanip>
 
 ThreadPool::ThreadPool(int numThreads, int numJobs) {
     stop = false;
@@ -80,12 +82,23 @@ void ThreadPool::processJob(Job job) {
     addr[1] += unmappedColor[1] * (1 - frac);
     addr[2] += unmappedColor[2] * (1 - frac);
 
-    // store color in texture/renderTarget at last iter
-    if (job.rayIter == s->scene.raysPerPixel - 1) {
+    // put colors in texture and save snapshots every snapshotFreq
+    if (job.rayIter % s->scene.snapshotFreq == 0 || job.rayIter == s->scene.raysPerPixel - 1) {
         Vector3 tmp(addr[0], addr[1], addr[2]);
         Color c(tmp);
         c.clamp();
         s->renderTarget.setColor(c, row, col);
+
+        // save snapshot
+        if (job.rayIter % s->scene.snapshotFreq == 0 &&
+            row == s->renderTarget.height - 1 &&
+            col == s->renderTarget.width - 1) {
+            std::ostringstream oss;
+            oss << "snapshots/snapshot_" << std::setw(5) << std::setfill('0') << job.rayIter << ".ppm";
+            std::string filename = oss.str();
+            std::cout << std::endl << "Saved snapshot at " << filename << std::endl;
+            s->renderTarget.save(filename);
+        }
     }
 }
 

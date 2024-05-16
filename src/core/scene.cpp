@@ -24,6 +24,7 @@ Scene::Scene(std::string filename) {
     float targetHeight = 100;
     pathTracingDepth = 50;
     raysPerPixel = 1;
+    snapshotFreq = 100;
 
     std::string line;
     int lineNum = 0;
@@ -126,6 +127,8 @@ Scene::Scene(std::string filename) {
             iss >> pathTracingDepth;
         } else if (type == "raysPerPixel") {
             iss >> raysPerPixel;
+        } else if (type == "snapshotFreq") {
+            iss >> snapshotFreq;
         } else {
             std::cout << "Scene file has syntax error on line " << lineNum << std::endl;
             assert(0);

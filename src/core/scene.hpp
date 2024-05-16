@@ -18,6 +18,7 @@ public:
     int numThreads;
     int pathTracingDepth;
     int raysPerPixel;
+    int snapshotFreq;
     PerspectiveCam* cam;
     Texture* renderTarget;
     double* renderTargetBuffer;
