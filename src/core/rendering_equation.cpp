@@ -55,7 +55,7 @@ Vector3 randomHemisphereDirection(Vector3 normal) {
         // opposite hemisphere so flip
         randomVector = -randomVector;
     }
-    return randomVector;
+    return randomVector.normalize();
 }
 
 float traceRay(Ray r, Vector3* hitPt, Color* hitColor, Vector3* hitNormal, Scene& scene) {
