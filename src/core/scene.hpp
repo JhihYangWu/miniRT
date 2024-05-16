@@ -16,8 +16,11 @@ public:
     ~Scene(); // deconstructor
     // attributes
     int numThreads;
+    int pathTracingDepth;
+    int raysPerPixel;
     PerspectiveCam* cam;
     Texture* renderTarget;
+    double* renderTargetBuffer;
     std::vector<TriMesh*> objs; // obj files
     std::vector<Plane> planes;
     std::vector<Sphere> spheres;

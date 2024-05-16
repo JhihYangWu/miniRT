@@ -22,6 +22,8 @@ Scene::Scene(std::string filename) {
     float camFovY = 90;
     float targetWidth = 100;
     float targetHeight = 100;
+    pathTracingDepth = 50;
+    raysPerPixel = 1;
 
     std::string line;
     int lineNum = 0;
@@ -69,9 +71,14 @@ Scene::Scene(std::string filename) {
             // get RGBA
             iss >> R >> ch >> G >> ch >> B >> ch >> A;
             Vector3 loc(x, y, z);
+            // get luminance
+            float luminance;
+            iss >> luminance;
             // apply transformation (if any)
             loc = transform(loc);
-            spheres.push_back(Sphere(radius, loc, Color(R, G, B, A)));
+            Color c(R, G, B, A);
+            c.luminance = luminance;
+            spheres.push_back(Sphere(radius, loc, c));
         } else if (type == "plane") {
             // get upper left
             iss >> x >> ch >> y >> ch >> z;
@@ -84,11 +91,16 @@ Scene::Scene(std::string filename) {
             Vector3 lowerRight = Vector3(x, y, z);
             // get RGBA
             iss >> R >> ch >> G >> ch >> B >> ch >> A;
+            // get luminance
+            float luminance;
+            iss >> luminance;
             // apply transformation (if any)
             upperLeft = transform(upperLeft);
             lowerLeft = transform(lowerLeft);
             lowerRight = transform(lowerRight);
-            planes.push_back(Plane(upperLeft, lowerLeft, lowerRight, Color(R, G, B, A)));
+            Color c(R, G, B, A);
+            c.luminance = luminance;
+            planes.push_back(Plane(upperLeft, lowerLeft, lowerRight, c));
         } else if (type == "transform") {
             // get translation
             iss >> x >> ch >> y >> ch >> z;
@@ -110,6 +122,10 @@ Scene::Scene(std::string filename) {
             transform(0, 3) = trans.x; // apply translation
             transform(1, 3) = trans.y;
             transform(2, 3) = trans.z;
+        } else if (type == "pathTracingDepth") {
+            iss >> pathTracingDepth;
+        } else if (type == "raysPerPixel") {
+            iss >> raysPerPixel;
         } else {
             std::cout << "Scene file has syntax error on line " << lineNum << std::endl;
             assert(0);
@@ -118,11 +134,13 @@ Scene::Scene(std::string filename) {
 
     cam = new PerspectiveCam(camLoc, camLookAt, camFovY);
     renderTarget = new Texture(targetWidth, targetHeight, 0);
+    renderTargetBuffer = new double[targetWidth * targetHeight * 3](); // () for zero init
 }
 
 Scene::~Scene() {
     delete cam;
     delete renderTarget;
+    delete renderTargetBuffer;
     for (TriMesh* t : objs) {
         delete t;
     }
