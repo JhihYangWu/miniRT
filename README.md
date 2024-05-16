@@ -21,6 +21,7 @@ The rendering equation
 Indirect lighting  
 Ambient occlusion  
 Blinn/Phong BRDF  
+Colored/uncolored mirrors  
 
 ---
 inspired by the project structure and design of [SORT](https://github.com/JiayinCao/SORT)  
