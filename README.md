@@ -20,6 +20,7 @@ Path tracing
 The rendering equation  
 Indirect lighting  
 Ambient occlusion  
+Blinn/Phong BRDF  
 
 ---
 inspired by the project structure and design of [SORT](https://github.com/JiayinCao/SORT)  
