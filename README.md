@@ -16,6 +16,10 @@ the render will be saved as render.ppm
 Möller–Trumbore triangle ray intersection algorithm  
 Octree  
 Multithreading  
+Path tracing  
+The rendering equation  
+Indirect lighting  
+Ambient occlusion  
 
 ---
 inspired by the project structure and design of [SORT](https://github.com/JiayinCao/SORT)  
