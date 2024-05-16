@@ -23,6 +23,7 @@ struct Job {
     int row;
     int col;
     System* system;
+    int rayIter;
 };
 
 #endif

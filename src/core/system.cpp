@@ -3,15 +3,18 @@
 #include "thread_pool.hpp"
 
 void System::render() {
-    ThreadPool pool(scene.numThreads, renderTarget.width * renderTarget.height);
+    ThreadPool pool(scene.numThreads, scene.raysPerPixel * renderTarget.width * renderTarget.height);
     timer.reset();
-    for (int row = 0; row < renderTarget.height; row++) {
-        for (int col = 0; col < renderTarget.width; col++) {
-            Job j;
-            j.row = row;
-            j.col = col;
-            j.system = this;
-            pool.addJob(j);
+    for (int rayIter = 0; rayIter < scene.raysPerPixel; rayIter++) {
+        for (int row = 0; row < renderTarget.height; row++) {
+            for (int col = 0; col < renderTarget.width; col++) {
+                Job j;
+                j.row = row;
+                j.col = col;
+                j.system = this;
+                j.rayIter = rayIter;
+                pool.addJob(j);
+            }
         }
     }
     pool.waitAll();
