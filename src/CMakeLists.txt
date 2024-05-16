@@ -32,6 +32,10 @@ geometry/plane.hpp
 geometry/plane.cpp
 core/scene.hpp
 core/scene.cpp
+core/rendering_equation.hpp
+core/rendering_equation.cpp
+color/brdf.hpp
+color/brdf.cpp
 )
 
 # create executable
