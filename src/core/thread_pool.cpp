@@ -1,4 +1,5 @@
 #include "thread_pool.hpp"
+#include "rendering_equation.hpp"
 
 ThreadPool::ThreadPool(int numThreads, int numJobs) {
     stop = false;
@@ -60,56 +61,31 @@ void ThreadPool::processJob(Job job) {
     System* s = job.system;
     float imgPlaneX = (col - s->renderTarget.width / 2.0f) / (s->renderTarget.height / 2.0f);
     float imgPlaneY = -(row - s->renderTarget.height / 2.0f) / (s->renderTarget.height / 2.0f);
-    Ray r = s->cam.generateRay(imgPlaneX, imgPlaneY);
-    float minT = -1.0f;
-    for (TriMesh* mesh : s->scene.objs) {
-        Triangle* hitTrig;
-        float t = mesh->octree->intersect(r, &hitTrig);
-        if (t == -1.0f) continue;
-        if (minT == -1.0f || t < minT) {
-            // new nearest hit
-            minT = t;
-            Vector3 hitPt = r(t);
-            // diffuse shading
-            Vector3 l = (Vector3(100, 100, 100) - hitPt).normalize();
-            float diffuse = std::max(0.0f, dot(hitTrig->n, l));
-            Vector3 white(1.0f, 1.0f, 1.0f);
-            Color c((diffuse * white + white) / 2.0);
-            c.clamp();
-            s->renderTarget.setColor(c, row, col);
-        }
-    }
-    for (Plane& p : s->scene.planes) {
-        float t = p.intersect(r);
-        if (t == -1.0f) continue;
-        if (minT == -1.0f || t < minT) {
-            // new nearest hit
-            minT = t;
-            Vector3 hitPt = r(t);
-            // diffuse shading
-            Vector3 l = (Vector3(100, 200, 100) - hitPt).normalize();
-            float diffuse = std::max(0.0f, dot(p.n, l));
-            Vector3 white(1.0f, 1.0f, 1.0f);
-            Color c((diffuse * white + white) / 2.0);
-            c.clamp();
-            s->renderTarget.setColor(c, row, col);
-        }
-    }
-    for (Sphere& sphere : s->scene.spheres) {
-        float t = sphere.intersect(r);
-        if (t == -1.0f) continue;
-        if (minT == -1.0f || t < minT) {
-            // new nearest hit
-            minT = t;
-            Vector3 hitPt = r(t);
-            // diffuse shading
-            Vector3 l = (Vector3(100, 200, 100) - hitPt).normalize();
-            float diffuse = std::max(0.0f, dot(sphere.getNormal(hitPt), l));
-            Vector3 white(1.0f, 1.0f, 1.0f);
-            Color c((diffuse * white + white) / 2.0);
-            c.clamp();
-            s->renderTarget.setColor(c, row, col);
-        }
+    Ray r = s->cam.generateRay(imgPlaneX, imgPlaneY); // primary ray
+    Vector3 hitPt;
+    Color hitColor;
+    Vector3 hitNormal;
+    float t = traceRay(r, &hitPt, &hitColor, &hitNormal, s->scene);
+    if (t == -1.0f) return; // primary ray hit nothing so black
+    BlinnPhongBRDF hitBRDF;
+    Vector3 unmappedColor = renderingEq(s->cam.loc, s->scene.pathTracingDepth, s->scene, hitPt, hitColor, hitNormal, hitBRDF);
+
+    // store unmappedColor in buffer
+    double* addr = s->scene.renderTargetBuffer + (row * s->scene.renderTarget->width + col) * 3;
+    double frac = 1.0 * job.rayIter / (job.rayIter + 1);
+    addr[0] *= frac;
+    addr[1] *= frac;
+    addr[2] *= frac;
+    addr[0] += unmappedColor[0] * (1 - frac);
+    addr[1] += unmappedColor[1] * (1 - frac);
+    addr[2] += unmappedColor[2] * (1 - frac);
+
+    // store color in texture/renderTarget at last iter
+    if (job.rayIter == s->scene.raysPerPixel - 1) {
+        Vector3 tmp(addr[0], addr[1], addr[2]);
+        Color c(tmp);
+        c.clamp();
+        s->renderTarget.setColor(c, row, col);
     }
 }
 
