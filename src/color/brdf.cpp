@@ -3,7 +3,7 @@
 
 #define PHONG_EXP 50
 #define PHONG_DIFFUSE_K 0.5
-#define PHONG_SPECULAR_K 10
+#define PHONG_SPECULAR_K 5
 
 float BlinnPhongBRDF::reflectance(Vector3 wi, Vector3 wo, Vector3 normal) {
     // reflect wi and dot with wo

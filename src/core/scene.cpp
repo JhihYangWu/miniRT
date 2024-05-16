@@ -29,6 +29,7 @@ Scene::Scene(std::string filename) {
     std::string line;
     int lineNum = 0;
     Mat4 transform;
+    bool isMirror = false;
     while (std::getline(file, line)) {
         lineNum++;
         std::istringstream iss(line);
@@ -79,6 +80,7 @@ Scene::Scene(std::string filename) {
             loc = transform(loc);
             Color c(R, G, B, A);
             c.luminance = luminance;
+            c.isMirror = isMirror;
             spheres.push_back(Sphere(radius, loc, c));
         } else if (type == "plane") {
             // get upper left
@@ -101,6 +103,7 @@ Scene::Scene(std::string filename) {
             lowerRight = transform(lowerRight);
             Color c(R, G, B, A);
             c.luminance = luminance;
+            c.isMirror = isMirror;
             planes.push_back(Plane(upperLeft, lowerLeft, lowerRight, c));
         } else if (type == "transform") {
             // get translation
@@ -129,6 +132,10 @@ Scene::Scene(std::string filename) {
             iss >> raysPerPixel;
         } else if (type == "snapshotFreq") {
             iss >> snapshotFreq;
+        } else if (type == "isMirror") {
+            int isMirrorVal;
+            iss >> isMirrorVal;
+            isMirror = (bool)isMirrorVal;
         } else {
             std::cout << "Scene file has syntax error on line " << lineNum << std::endl;
             assert(0);

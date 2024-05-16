@@ -19,6 +19,11 @@ Vector3 renderingEq(Vector3 prevPoint, int maxDepth, Scene& scene, Vector3 hitPt
         // can't recurse anymore and didn't hit light source so no color
         return Vector3(); // black
     } else {
+        if (hitColor.isMirror) {
+            // special case for mirrors
+            // don't just shoot ray in random direction, shoot in reflected direction
+            wi = -wo + 2 * dot(wo, hitNormal) * hitNormal;
+        }
         // recurse by shooting a ray (path tracing)
         // trace ray in wi direction
         Ray nextRay(hitPt + wi * EPSILON_RAY_OFFSET, wi); // create a ray that moves slightly in wi direction to not intersect with shape at hitPt
@@ -28,6 +33,7 @@ Vector3 renderingEq(Vector3 prevPoint, int maxDepth, Scene& scene, Vector3 hitPt
         float t = traceRay(nextRay, &nextHitPt, &nextHitColor, &nextHitNormal, scene);
         if (t == -1.0f) return Vector3(); // didn't hit anything so black
         Vector3 thisColor(hitColor.r, hitColor.g, hitColor.b);
+        if (hitColor.isMirror) return thisColor * renderingEq(hitPt, maxDepth - 1, scene, nextHitPt, nextHitColor, nextHitNormal, hitBRDF);
         return thisColor * renderingEq(hitPt, maxDepth - 1, scene, nextHitPt, nextHitColor, nextHitNormal, hitBRDF) * cosThetaI * hitBRDF.reflectance(wi, wo, hitNormal);
     }
 }

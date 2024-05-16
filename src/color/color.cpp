@@ -28,6 +28,7 @@ Color::Color(const Color& other) {
     b = other.b;
     a = other.a;
     luminance = other.luminance;
+    isMirror = other.isMirror;
 }
 
 void Color::setRGBA(int r, int g, int b, int a) {
