@@ -21,9 +21,9 @@ public:
     // y should be between -1.0f and 1.0f
     Ray generateRay(float x, float y);
 
+    Vector3 loc; // location of the camera
 private:
     // attributes, not allowed to change so private
-    Vector3 loc; // location of the camera
     Vector3 up; // up vector, default (0, 1, 0)
     float imgPlaneDist;
     Vector3 u; // vector towards right of image plane
