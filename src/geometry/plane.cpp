@@ -41,6 +41,7 @@ float Plane::intersect(Ray r) {
     // t = (n . p0 - n . o) / (n . d)
     float t = (dot(n, lowerLeft) - dot(n, r.o)) / (dot(n, r.d) + EPSILON);
     if (t < 0.0f) return -1.0f; // plane is behind ray
+    if (dot(n, -r.d) < 0.0f) return -1.0f; // normal not facing ray
     Vector3 hitPt = r(t);
 
     // 2. check if hitPt is inside plane
