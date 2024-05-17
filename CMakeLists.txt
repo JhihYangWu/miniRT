@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(PROJECT_NAME "miniRT")
 project("${PROJECT_NAME}")
 
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 
 add_subdirectory(src)
