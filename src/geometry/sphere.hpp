@@ -4,6 +4,7 @@
 #include "../mymath/vector3.hpp"
 #include "../color/color.hpp"
 #include "../mymath/ray.hpp"
+#include <cmath>
 
 class Sphere{
 public:

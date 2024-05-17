@@ -3,6 +3,7 @@
 
 #include <string>
 #include "vector3.hpp"
+#include <cmath>
 
 class Mat4{
 public:

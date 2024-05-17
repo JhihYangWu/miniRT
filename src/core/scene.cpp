@@ -20,8 +20,8 @@ Scene::Scene(std::string filename) {
     Vector3 camLoc = Vector3(0, 0, 10);
     Vector3 camLookAt = Vector3(0, 0, 0);
     float camFovY = 90;
-    float targetWidth = 100;
-    float targetHeight = 100;
+    int targetWidth = 100;
+    int targetHeight = 100;
     pathTracingDepth = 50;
     raysPerPixel = 1;
     snapshotFreq = 100;
