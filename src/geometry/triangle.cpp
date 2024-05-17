@@ -30,13 +30,14 @@ float Triangle::intersect(Ray r) {
     if (det > -EPSILON && det < EPSILON) return -1.0f;
     float invDet = 1.0f / det;
     Vector3 tVec = r.o - A;
-    float u = dot(pVec, tVec) * invDet; // not divided by det yet
+    float u = dot(pVec, tVec) * invDet;
     if (u < 0.0f || u > 1.0f) return -1.0f; // missed triangle
     Vector3 qVec = cross(tVec, edge1);
-    float v = dot(qVec, r.d) * invDet; // not divided by det yet
+    float v = dot(qVec, r.d) * invDet;
     if (v < 0.0f || u + v > 1.0f) return -1.0f; // missed triangle
 
     // hit triangle
     float t = dot(qVec, edge2) * invDet; // time of intersection
+    if (t < 0.0f) return -1.0f;
     return t;
 }
