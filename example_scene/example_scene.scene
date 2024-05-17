@@ -10,7 +10,7 @@ snapshotFreq 10
 
 # monkey
 transform -8,-4,0 0,30,0 2,2,2
-obj example_scene/monkey.obj 2 8
+obj example_scene/monkey.obj 2 8 0,0,150,255 0.0
 transform 0,0,0 0,0,0 1,1,1
 
 # roof

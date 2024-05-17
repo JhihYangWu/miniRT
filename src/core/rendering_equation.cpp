@@ -74,7 +74,7 @@ float traceRay(Ray r, Vector3* hitPt, Color* hitColor, Vector3* hitNormal, Scene
             // new nearest hit
             minT = t;
             *hitPt = r(t);
-            *hitColor = Color(255, 255, 255, 255);
+            *hitColor = hitTrig->c;
             *hitNormal = hitTrig->n;
         }
     }

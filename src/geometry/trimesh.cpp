@@ -4,7 +4,7 @@
 #include <sstream>
 #include <cassert>
 
-TriMesh::TriMesh(std::string filename, int octreeMaxDepth, int octreeApproxTrigPerBBox, Mat4 transform) {
+TriMesh::TriMesh(std::string filename, int octreeMaxDepth, int octreeApproxTrigPerBBox, Mat4 transform, Color& c) {
     // make sure filename ends with obj
     assert(filename.substr(filename.length() - 3) == "obj");
 
@@ -42,7 +42,7 @@ TriMesh::TriMesh(std::string filename, int octreeMaxDepth, int octreeApproxTrigP
             A = transform(A); // apply transformation
             B = transform(B);
             C = transform(C);
-            triangles.push_back(Triangle(A, B, C));
+            triangles.push_back(Triangle(A, B, C, c));
             bbox.union_(A);
             bbox.union_(B);
             bbox.union_(C);

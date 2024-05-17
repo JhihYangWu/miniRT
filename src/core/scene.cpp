@@ -60,10 +60,20 @@ Scene::Scene(std::string filename) {
             std::string path;
             iss >> path;
             // get octree maxDepth
-            iss >> R;
+            int maxDepth;
+            iss >> maxDepth;
             // get octree approxTrigPerBBox
-            iss >> G;
-            objs.push_back(new TriMesh(path, R, G, transform));
+            int approxTrigPerBBox;
+            iss >> approxTrigPerBBox;
+            // get RGBA
+            iss >> R >> ch >> G >> ch >> B >> ch >> A;
+            // get luminance
+            float luminance;
+            iss >> luminance;
+            Color c(R, G, B, A);
+            c.luminance = luminance;
+            c.isMirror = isMirror;
+            objs.push_back(new TriMesh(path, maxDepth, approxTrigPerBBox, transform, c));
         } else if (type == "sphere") {
             // get radius
             float radius;

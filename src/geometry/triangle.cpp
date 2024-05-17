@@ -2,10 +2,11 @@
 
 #define EPSILON 0.000001
 
-Triangle::Triangle(Vector3 p0, Vector3 p1, Vector3 p2) {
+Triangle::Triangle(Vector3 p0, Vector3 p1, Vector3 p2, Color c) {
     A = p0;
     B = p1;
     C = p2;
+    this->c = c;
     edge1 = B - A;
     edge2 = C - A;
     n = cross(edge1, edge2).normalize();
@@ -15,6 +16,7 @@ Triangle::Triangle(const Triangle& other) {
     A = other.A;
     B = other.B;
     C = other.C;
+    c = other.c;
     edge1 = B - A;
     edge2 = C - A;
     n = cross(edge1, edge2).normalize();
