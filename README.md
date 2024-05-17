@@ -1,5 +1,5 @@
 # miniRT
-miniRT is a small but powerful ray tracer I built to learn more about computer graphics  
+miniRT is a small but powerful ray tracer I built from scratch to learn more about computer graphics  
 no dependencies, pure c++ and math  
 
 ---
@@ -10,6 +10,8 @@ cd miniRT
 ./run.sh
 ```
 the render will be saved as render.ppm  
+checkpoints are saved in snapshots/
+![example_scene](/example_scene/example_scene.png)
 
 ---
 ## Features
