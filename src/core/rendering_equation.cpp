@@ -22,7 +22,41 @@ Vector3 renderingEq(Vector3 prevPoint, int maxDepth, Scene& scene, Vector3 hitPt
         if (hitColor.isMirror) {
             // special case for mirrors
             // don't just shoot ray in random direction, shoot in reflected direction
-            wi = -wo + 2 * dot(wo, hitNormal) * hitNormal;
+            wi = -wo + 2 * dot(wo, hitNormal) * hitNormal; // reflection formula
+        } else if (hitColor.a < 1.0f) {
+            // special case for semi-transparent surfaces
+            // don't just shoot ray in random direction, shoot ray in refracted direction or reflected direction
+            // TODO: randomly choose between refracted and reflected using Fresnel equations
+            bool refracted = true;
+            bool insideObject = dot(wo, hitNormal) < 0.0f;
+            if (insideObject) hitNormal = -hitNormal; // normal always similar direction to wo easier to think about
+            if (refracted) { // refraction
+                float n1; // incident index
+                float n2; // refracted index
+                if (insideObject) {
+                    n1 = hitColor.refractiveIndex; // from inside object
+                    n2 = 1.0; // back to air
+                } else {
+                    n1 = 1.0; // from air
+                    n2 = hitColor.refractiveIndex; // to inside object
+                }
+                float cosIncidentAng = dot(wo, hitNormal);
+                float sinIncidentAng = sqrtf(1 - cosIncidentAng * cosIncidentAng); // pythagorean identity
+                float sinRefractedAng = n1 / n2 * sinIncidentAng;
+                if (sinRefractedAng > 1.0f) { // total internal reflection
+                    wi = -wo + 2 * dot(wo, hitNormal) * hitNormal; // reflection formula
+                } else {
+                    // calculate refracted wi
+                    float cosRefractedAng = sqrtf(1 - sinRefractedAng * sinRefractedAng); // pythagorean identity
+                    Vector3 wiParallel = n1 / n2 *(-wo + cosIncidentAng * hitNormal); // cosIncidentAng * hitNormal = dot(wo, normal) * normal = projection of wo on normal
+                    // wiParallel is parallel to the surface
+                    Vector3 wiPerp = -cosRefractedAng * hitNormal; // dot(wi, -normal) * -normal = projection of wi on -normal
+                    // wiPerp is perp to the surface
+                    wi = (wiParallel + wiPerp).normalize();
+                }
+            } else { // reflection
+                wi = -wo + 2 * dot(wo, hitNormal) * hitNormal; // reflection formula
+            }
         }
         // recurse by shooting a ray (path tracing)
         // trace ray in wi direction
@@ -34,6 +68,7 @@ Vector3 renderingEq(Vector3 prevPoint, int maxDepth, Scene& scene, Vector3 hitPt
         if (t == -1.0f) return Vector3(); // didn't hit anything so black
         Vector3 thisColor(hitColor.r, hitColor.g, hitColor.b);
         if (hitColor.isMirror) return thisColor * renderingEq(hitPt, maxDepth - 1, scene, nextHitPt, nextHitColor, nextHitNormal, hitBRDF);
+        if (hitColor.a < 1.0f) return thisColor * renderingEq(hitPt, maxDepth - 1, scene, nextHitPt, nextHitColor, nextHitNormal, hitBRDF);
         return thisColor * renderingEq(hitPt, maxDepth - 1, scene, nextHitPt, nextHitColor, nextHitNormal, hitBRDF) * cosThetaI * hitBRDF.reflectance(wi, wo, hitNormal);
     }
 }

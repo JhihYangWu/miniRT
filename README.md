@@ -1,6 +1,6 @@
 # miniRT
 miniRT is a small but powerful ray tracer I built to learn more about computer graphics  
-no dependencies, pure c++  
+no dependencies, pure c++ and math  
 
 ---
 ## Render Example Scene
@@ -22,6 +22,7 @@ Indirect lighting
 Ambient occlusion  
 Blinn/Phong BRDF  
 Colored/uncolored mirrors  
+Refraction (Snell law)
 
 ---
 inspired by the project structure and design of [SORT](https://github.com/JiayinCao/SORT)  
