@@ -27,15 +27,16 @@ float Triangle::intersect(Ray r) {
     // Möller–Trumbore intersection algorithm
     Vector3 pVec = cross(r.d, edge2);
     float det = dot(pVec, edge1);
-    if (det < EPSILON) return -1.0f; // back face culling
+    if (det > -EPSILON && det < EPSILON) return -1.0f;
+    float invDet = 1.0f / det;
     Vector3 tVec = r.o - A;
-    float u = dot(pVec, tVec); // not divided by det yet
-    if (u < 0.0f || u > det) return -1.0f; // missed triangle
+    float u = dot(pVec, tVec) * invDet; // not divided by det yet
+    if (u < 0.0f || u > 1.0f) return -1.0f; // missed triangle
     Vector3 qVec = cross(tVec, edge1);
-    float v = dot(qVec, r.d); // not divided by det yet
-    if (v < 0.0f || u + v > det) return -1.0f; // missed triangle
+    float v = dot(qVec, r.d) * invDet; // not divided by det yet
+    if (v < 0.0f || u + v > 1.0f) return -1.0f; // missed triangle
 
     // hit triangle
-    float t = dot(qVec, edge2) / det; // time of intersection
+    float t = dot(qVec, edge2) * invDet; // time of intersection
     return t;
 }
