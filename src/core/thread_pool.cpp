@@ -3,7 +3,7 @@
 #include <sstream>
 #include <iomanip>
 
-ThreadPool::ThreadPool(int numThreads, int numJobs) {
+ThreadPool::ThreadPool(int numThreads, long long numJobs) {
     stop = false;
     jobsCompleted = 0;
     totalJobs = numJobs;
@@ -102,8 +102,8 @@ void ThreadPool::processJob(Job job) {
     }
 }
 
-void printProgressBar(int progress, int total, int barWidth) {
-    float percent = 1.0 * progress / total;
+void printProgressBar(long long progress, long long total, int barWidth) {
+    double percent = 1.0 * progress / total;
     int width = percent * barWidth;
     std::cout << "[";
     for (int i = 0; i < barWidth; i++) {

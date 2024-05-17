@@ -11,7 +11,7 @@
 class ThreadPool{
 public:
     // constructor
-    ThreadPool(int numThreads, int numJobs);
+    ThreadPool(int numThreads, long long numJobs);
 
     // methods
     void addJob(Job job); // add a job to the queue
@@ -27,11 +27,11 @@ private:
     std::condition_variable condition;
     std::mutex completionMutex;
     std::condition_variable completionCondition;
-    int jobsCompleted;
-    int totalJobs;
+    long long jobsCompleted;
+    long long totalJobs;
     bool stop;
 };
 
-void printProgressBar(int progress, int total, int barWidth = 40);
+void printProgressBar(long long progress, long long total, int barWidth = 40);
 
 #endif
