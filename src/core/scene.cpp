@@ -30,6 +30,7 @@ Scene::Scene(std::string filename) {
     int lineNum = 0;
     Mat4 transform;
     bool isMirror = false;
+    float refractiveIndex = 1.0f;
     while (std::getline(file, line)) {
         lineNum++;
         std::istringstream iss(line);
@@ -73,6 +74,7 @@ Scene::Scene(std::string filename) {
             Color c(R, G, B, A);
             c.luminance = luminance;
             c.isMirror = isMirror;
+            c.refractiveIndex = refractiveIndex;
             objs.push_back(new TriMesh(path, maxDepth, approxTrigPerBBox, transform, c));
         } else if (type == "sphere") {
             // get radius
@@ -91,6 +93,7 @@ Scene::Scene(std::string filename) {
             Color c(R, G, B, A);
             c.luminance = luminance;
             c.isMirror = isMirror;
+            c.refractiveIndex = refractiveIndex;
             spheres.push_back(Sphere(radius, loc, c));
         } else if (type == "plane") {
             // get upper left
@@ -114,6 +117,7 @@ Scene::Scene(std::string filename) {
             Color c(R, G, B, A);
             c.luminance = luminance;
             c.isMirror = isMirror;
+            c.refractiveIndex = refractiveIndex;
             planes.push_back(Plane(upperLeft, lowerLeft, lowerRight, c));
         } else if (type == "transform") {
             // get translation
@@ -146,6 +150,8 @@ Scene::Scene(std::string filename) {
             int isMirrorVal;
             iss >> isMirrorVal;
             isMirror = (bool)isMirrorVal;
+        } else if (type == "refractiveIndex") {
+            iss >> refractiveIndex;
         } else {
             std::cout << "Scene file has syntax error on line " << lineNum << std::endl;
             assert(0);

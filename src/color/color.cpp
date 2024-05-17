@@ -29,6 +29,7 @@ Color::Color(const Color& other) {
     a = other.a;
     luminance = other.luminance;
     isMirror = other.isMirror;
+    refractiveIndex = other.refractiveIndex;
 }
 
 void Color::setRGBA(int r, int g, int b, int a) {

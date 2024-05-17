@@ -19,6 +19,7 @@ public:
     float r, g, b, a; // normally between 0.0f and 1.0f
     float luminance = 0.0f;
     bool isMirror = false;
+    float refractiveIndex = 1.0f;
 };
 
 #endif
