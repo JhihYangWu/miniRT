@@ -27,4 +27,9 @@ Colored/uncolored mirrors
 Refraction (Snell law)
 
 ---
+## Gallery
+![stanford_dragon](/more_example_scenes/stanford_dragon/stanford_dragon.png)
+[Stanford Dragon](https://graphics.stanford.edu/data/3Dscanrep/)  
+
+---
 inspired by the project structure and design of [SORT](https://github.com/JiayinCao/SORT)  
