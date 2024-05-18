@@ -2,8 +2,8 @@ numThreads 8
 camLoc 0.001,0.001,30
 lookAt 0,0,0
 fovY 90
-renderWidth 1920
-renderHeight 1080
+renderWidth 640
+renderHeight 480
 pathTracingDepth 300
 raysPerPixel 500
 snapshotFreq 10
