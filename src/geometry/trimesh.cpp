@@ -49,6 +49,11 @@ TriMesh::TriMesh(std::string filename, int octreeMaxDepth, int octreeApproxTrigP
         }
     }
 
+    if (numTriangles == 0) {
+        std::cout << "Obj file at " << filename << " has 0 triangles, perhaps the path is incorrect?" << std::endl;
+        assert(0);
+    }
+
     // put triangles in octree
     std::vector<Triangle*> trigRefs;
     for (Triangle& t : triangles) trigRefs.push_back(&t);

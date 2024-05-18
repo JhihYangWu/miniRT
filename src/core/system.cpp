@@ -4,6 +4,7 @@
 
 void System::render() {
     ThreadPool pool(scene.numThreads, scene.raysPerPixel * renderTarget.width * renderTarget.height);
+    std::cout << "Preprocess done, starting to render" << std::endl;
     timer.reset();
     for (int rayIter = 0; rayIter < scene.raysPerPixel; rayIter++) {
         for (int row = 0; row < renderTarget.height; row++) {

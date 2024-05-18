@@ -96,7 +96,7 @@ void ThreadPool::processJob(Job job) {
             std::ostringstream oss;
             oss << "snapshots/snapshot_" << std::setw(5) << std::setfill('0') << job.rayIter << ".ppm";
             std::string filename = oss.str();
-            std::cout << std::endl << "Saved snapshot at " << filename << std::endl;
+            std::cout << std::endl << "Saved snapshot at " << filename << " " << s->timer.getElapsedTime() << " ms" << std::endl;
             s->renderTarget.save(filename);
         }
     }
